@@ -1,7 +1,8 @@
 ---
 
 - name: "Clone the private repo"
-  ansible.builtin.include_role: git_clone
+  ansible.builtin.include_role:
+    name: git_clone
   vars:
     git_clone_gh_access_token: "{{ bkeeper_access_token }}"
     git_clone_git_repo: "{{ bkeeper_repo }}"
