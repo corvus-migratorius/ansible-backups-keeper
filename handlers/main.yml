@@ -1,5 +1,5 @@
 ---
-- name: "enable-restart"
+- name: "Enable-Restart"
   ansible.builtin.systemd_service:
     name: backups-keeper.timer
     state: restarted

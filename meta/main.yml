@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: "template"
+  role_name: "bkeeper"
   namespace: genlab
   author: "Alexander Gorelyshev"
   company: "Genlab, LLC"
