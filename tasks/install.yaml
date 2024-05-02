@@ -14,25 +14,25 @@
   rescue:
     - name: "Install | run 'make clean' preventively"
       notify: "enable-run"
-      community.general.system.make:
+      community.general.make:
         chdir: "{{ bkeeper_branch_clone_dest }}"
         target: "clean"
 
     - name: "Install | compile and install the downloaded binary"
       notify: "enable-run"
-      community.general.system.make:
+      community.general.make:
         chdir: "{{ bkeeper_branch_clone_dest }}"
         target: "install"
 
     - name: "Install | run 'make clean' post-installation"
       notify: "enable-run"
-      community.general.system.make:
+      community.general.make:
         chdir: "{{ bkeeper_branch_clone_dest }}"
         target: "clean"
 
     - name: "Install | deploy systemd unit files"
       notify: "enable-run"
-      community.general.system.make:
+      community.general.make:
         chdir: "{{ bkeeper_branch_clone_dest }}"
         target: "service"
 
