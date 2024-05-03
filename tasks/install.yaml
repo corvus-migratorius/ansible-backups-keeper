@@ -1,5 +1,5 @@
 ---
-- name: "Install | check if `backups-keeper` is accessible from PATH"
+- name: "Install | install `backups-keeper`"
   environment:
     PATH: "{{ bkeeper_gopath }}:{{ ansible_env.PATH }}"
   block:
