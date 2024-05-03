@@ -1,5 +1,5 @@
 ---
-bkeeper_branch_clone_dest: "/tmp/backups-keeper"
+bkeeper_branch_clone_dest: "/home/{{ ansible_user }}/backups-keeper"
 bkeeper_repo: "git@github.com:corvus-migratorius/genlab-backups-keeper.git"
 bkeeper_branch: master
 bkeeper_access_token: !vault |
