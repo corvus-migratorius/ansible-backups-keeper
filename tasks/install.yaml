@@ -46,12 +46,13 @@
         chdir: "{{ bkeeper_branch_clone_dest }}"
         target: "service"
 
-    - name: "Install | configure the invocation interval in the deployed timer"
-      notify: "enable-run"
-      ansible.builtin.lineinfile:
-        path: /etc/backups-keeper/backups-keeper.timer
-        regexp: "^OnCalendar"
-        line: "OnCalendar={{ bkeeper_timer_oncalendar }}"
-        owner: root
-        group: root
-        mode: '0644'
+
+- name: "Install | configure the invocation interval in the deployed timer"
+  notify: "Enable-Restart"
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system/backups-keeper.timer
+    regexp: "^OnCalendar"
+    line: "OnCalendar={{ bkeeper_timer_oncalendar }}"
+    owner: root
+    group: root
+    mode: '0644'
