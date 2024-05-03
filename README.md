@@ -1,6 +1,8 @@
 ansible-backups-keeper
 =========
 
+[![lint](https://github.com/corvus-migratorius/ansible-backups-keeper/actions/workflows/lint.yaml/badge.svg)](https://github.com/corvus-migratorius/ansible-backups-keeper/actions/workflows/lint.yaml)
+
 Role for deploying the `backups-keeper` tool from a private repo
 
 Requirements
