@@ -12,6 +12,8 @@
     - name: "Install | assert that the requested version is already installed"
       ansible.builtin.assert:
         that: "bkeeper_ver in bkeeper_installed_ver.stdout"
+        success_msg: "expected version available ({{ bkeeper_ver }})"
+        fail_msg: "expected version: {{ bkeeper_ver }}, actual: {{ bkeeper_installed_ver.stdout }}"
 
   rescue:
     - name: "Install | clone the private repo"
