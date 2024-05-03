@@ -12,6 +12,16 @@
         that: "bkeeper_ver in bkeeper_installed_ver.stdout"
 
   rescue:
+    - name: "Install | clone the private repo"
+      ansible.builtin.include_role:
+        name: git_clone
+      vars:
+        git_clone_user: "{{ ansible_user }}"
+        git_clone_gh_access_token: "{{ bkeeper_access_token }}"
+        git_clone_git_repo: "{{ bkeeper_repo }}"
+        git_clone_git_branch: "{{ bkeeper_branch }}"
+        git_clone_dest: "{{ bkeeper_branch_clone_dest }}"
+
     - name: "Install | run 'make clean' preventively"
       notify: "enable-run"
       community.general.make:
