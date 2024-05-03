@@ -1,7 +1,9 @@
 ---
-- name: "Install | check if `backups-keeper` is accessible from $PATH"
+- name: "Install | check if `backups-keeper` is accessible from PATH"
+  environment:
+    PATH: "{{ bkeeper_gopath }}:{{ ansible_env.PATH }}"
   block:
-    - name: "Install | check if `backups-keeper` is accessible from $PATH"
+    - name: "Install | check if `backups-keeper` is accessible from PATH"
       changed_when: false
       register: bkeeper_installed_ver
       ansible.builtin.command:
