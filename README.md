@@ -15,10 +15,15 @@ Role Variables
 --------------
 
 `bkeeper_branch_clone_dest`: where to (temporarily) clone the `backups-keeper` repo
+
 `bkeeper_repo`: SSH-style URL for the `backups-keeper` repo
+
 `bkeeper_branch`: branch to be checked out after cloning (default: `master`)
+
 `bkeeper_access_token`: `ansible-vault`-encrypted access token 
+
 `bkeeper_timer_oncalendar`: systemd-style timer notation (default: `*:0/5`)
+
 `bkeeper_ver`: version of the `backups-keeper` tool that needs to be installed
 
 Example Playbook
