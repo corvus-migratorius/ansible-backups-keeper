@@ -47,9 +47,12 @@ Example Playbook
       bkeeper_access_token: <your-encrypted-token>
       bkeeper_spreadsheet_id: "1sLbq3SB5TEm1KW7srR5nwueotpVb36gG7yIydU1kC3A"
       bkeeper_read_range: "SheetName"
+      bkeeper_manifests_dir: /var/local/backups-keeper
       bkeeper_backup_manifests:
-        mirrored_daily: /root/backups-keeper/mirrored_daily.fofn
-        versioned_daily: /root/backups-keeper/versioned_daily.fofn
+        backup_manifests:
+          mirrored_daily: "{{ bkeeper_manifests_dir }}/mirrored_daily.fofn"
+          versioned_daily: "{{ bkeeper_manifests_dir }}/versioned_daily.fofn"
+      bkeeper_creds_path: "{{ inventory_dir }}/secrets/bkeeper/credentials.json"
 
 ```
 
