@@ -1,0 +1,11 @@
+---
+# look at your Google sheet's URL, the ID looks like this:
+# 1sLbq3SB5TEm1KW7srR5nwueotpVb36gG7yIydU1kC3A
+spreadsheetID: "{{ bkeeper_spreadhseet_id }}"
+
+# name of the sheet where the data reside
+read_range: "{{ bkeeper_read_range }}"
+
+# maps arbitrary backup "types" to filepaths, e.g.: 
+# /root/backups-keeper/mirrored_daily.fofn
+{{ bkeeper_backup_manifests }}
