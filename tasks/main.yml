@@ -1,3 +1,6 @@
 ---
 - name: "Installation tasks"
   ansible.builtin.include_tasks: "install.yaml"
+
+- name: "Configuration tasks"
+  ansible.builtin.include_tasks: "configure.yaml"

@@ -50,6 +50,14 @@
         chdir: "{{ bkeeper_branch_clone_dest }}"
         target: "service"
 
+    - name: "Install | ensure the manifest dir exists"
+      ansible.builtin.file:
+        path: "{{ bkeeper_manifests_dir }}"
+        state: directory
+        mode: "0770"
+        owner: root
+        group: root
+
 
 - name: "Install | configure the invocation interval in the deployed timer"
   notify: "Enable-Restart"

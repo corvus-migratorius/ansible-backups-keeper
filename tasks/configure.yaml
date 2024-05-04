@@ -1,0 +1,16 @@
+---
+- name: "Configure | copy-decrypt Google service account credentials"
+  ansible.builtin.copy:
+    src: "{{ bkeeper_creds_path }}"
+    dest: "/etc/backups-keeper/credentials.json"
+    mode: "0660"
+    owner: root
+    group: root
+
+- name: "Configure | template the configuration file"
+  ansible.builtin.template:
+    src: "config.yaml.j2"
+    dest: "/etc/backups-keeper/config.yaml"
+    mode: "0660"
+    owner: root
+    group: root

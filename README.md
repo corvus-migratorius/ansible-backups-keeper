@@ -26,6 +26,12 @@ Role Variables
 
 `bkeeper_ver`: version of the `backups-keeper` tool that needs to be installed
 
+`bkeeper_spreadsheet_id`: Google spreadsheet ID
+
+`bkeeper_read_range`: a cell range in A1 notation, or name of a sheet
+
+`bkeeper_backup_manifests`: maps arbitrary backup "types" to filepaths, e.g.: `mirrored_daily: /root/backups-keeper/mirrored_daily.fofn`
+
 Example Playbook
 ----------------
 
@@ -39,6 +45,12 @@ Example Playbook
       bkeeper_ver: "0.2.1"
       bkeeper_timer_oncalendar: "*:0/1"
       bkeeper_access_token: <your-encrypted-token>
+      bkeeper_spreadsheet_id: "1sLbq3SB5TEm1KW7srR5nwueotpVb36gG7yIydU1kC3A"
+      bkeeper_read_range: "SheetName"
+      bkeeper_backup_manifests:
+        mirrored_daily: /root/backups-keeper/mirrored_daily.fofn
+        versioned_daily: /root/backups-keeper/versioned_daily.fofn
+
 ```
 
 License
