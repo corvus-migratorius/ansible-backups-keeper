@@ -8,5 +8,5 @@ read_range: "{{ bkeeper_read_range }}"
 
 # maps arbitrary backup "types" to filepaths, e.g.: 
 # /root/backups-keeper/mirrored_daily.fofn
-backup_manifests:
-  {{ bkeeper_backup_manifests | to_nice_yaml }}
+
+{{ bkeeper_backup_manifests | to_nice_yaml }}
