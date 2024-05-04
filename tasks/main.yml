@@ -4,4 +4,3 @@
 
 - name: "Configuration tasks"
   ansible.builtin.include_tasks: "configure.yaml"
-  
