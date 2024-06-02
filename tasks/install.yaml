@@ -26,6 +26,8 @@
         url: "{{ gh_asset_url }}"
         headers:
           accept: "application/octet-stream"
+          Content-Disposition: "attachment"
+        follow_redirects: safe
         dest: "{{ tmpdir.path }}/{{ tarball_name }}"
 
     - name: "Install | unpack the release tarball"
