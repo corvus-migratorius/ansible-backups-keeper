@@ -1,4 +1,4 @@
 ---
-gh_api_url: "https://{{ ogh_auth_token }}:@api.github.com/repos/{{ repo.owner }}/{{ repo.name }}"
+gh_api_url: "https://{{ gh_oauth_token }}:@api.github.com/repos/{{ repo.owner }}/{{ repo.name }}"
 tarball_name: "backups-keeper-{{ version }}.tar.gz"
 gh_asset_url: "{{ gh_api_url }}/releases/assets/{{ tarball_name }}"
