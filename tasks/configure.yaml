@@ -1,7 +1,15 @@
 ---
+- name: "Configure | create a directory under /etc"
+  ansible.builtin.file:
+    name: "/etc/backups-keeper"
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+
 - name: "Configure | copy-decrypt Google service account credentials"
   ansible.builtin.copy:
-    src: "{{ bkeeper_creds_path }}"
+    src: "{{ credentials_path }}"
     dest: "/etc/backups-keeper/credentials.json"
     mode: "0660"
     owner: root
@@ -14,3 +22,13 @@
     mode: "0660"
     owner: root
     group: root
+
+- name: "Install | configure the invocation interval in the deployed timer"
+  notify: "Enable-Restart"
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system/backups-keeper.timer
+    regexp: "^OnCalendar"
+    line: "OnCalendar={{ timer_oncalendar }}"
+    owner: root
+    group: root
+    mode: '0644'

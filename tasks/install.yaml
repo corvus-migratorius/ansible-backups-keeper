@@ -1,7 +1,5 @@
 ---
 - name: "Install | install `backups-keeper`"
-  environment:
-    PATH: "{{ bkeeper_gopath }}:{{ ansible_env.PATH }}"
   block:
     - name: "Install | check if `backups-keeper` is accessible from PATH"
       changed_when: false
@@ -16,55 +14,47 @@
         fail_msg: "expected version: {{ bkeeper_ver }}, actual: {{ bkeeper_installed_ver.stdout }}"
 
   rescue:
-    - name: "Install | clone the private repo"
-      ansible.builtin.include_role:
-        name: git_clone
-      vars:
-        git_clone_user: "{{ ansible_user }}"
-        git_clone_gh_access_token: "{{ bkeeper_access_token }}"
-        git_clone_git_repo: "{{ bkeeper_repo }}"
-        git_clone_git_branch: "{{ bkeeper_branch }}"
-        git_clone_dest: "{{ bkeeper_branch_clone_dest }}"
-
-    - name: "Install | run 'make clean' preventively"
-      notify: "Enable-Restart"
-      community.general.make:
-        chdir: "{{ bkeeper_branch_clone_dest }}"
-        target: "clean"
-
-    - name: "Install | compile and install the downloaded binary"
-      notify: "Enable-Restart"
-      community.general.make:
-        chdir: "{{ bkeeper_branch_clone_dest }}"
-        target: "install"
-
-    - name: "Install | run 'make clean' post-installation"
-      notify: "Enable-Restart"
-      community.general.make:
-        chdir: "{{ bkeeper_branch_clone_dest }}"
-        target: "clean"
-
-    - name: "Install | deploy systemd unit files"
-      notify: "Enable-Restart"
-      community.general.make:
-        chdir: "{{ bkeeper_branch_clone_dest }}"
-        target: "service"
-
-    - name: "Install | ensure the manifest dir exists"
-      ansible.builtin.file:
-        path: "{{ bkeeper_manifests_dir }}"
+    - name: "Install | create a temporary directory"
+      register: tmpdir
+      ansible.builtin.tempfile:
         state: directory
-        mode: "0770"
+        suffix: backups-keeper
+
+    - name: "Install | fetch binary release"
+      ansible.builtin.uri:
+        # method: "POST"
+        url: "{{ gh_asset_url }}"
+        headers:
+          accept: "application/octet-stream"
+        dest: "{{ tmpdir.path }}/{{ tarball_name }}"
+
+    - name: "Install | unpack the release tarball"
+      ansible.builtin.unarchive:
+        src: "{{ tmpdir.path }}/{{ tarball_name }}"
+        dest: "{{ tmpdir.path }}"
+
+    - name: "Install | deploy distribution files"
+      notify: "Enable-Restart"
+      loop:
+        - {name: "backups-keeper", mode: "0770", dest: "/usr/bin/backups-keeper"}
+        - {name: "backups-keeper.service", mode: "0660", dest: "/etc/systemd/system/backups-keeper.service" }
+        - {name: "backups-keeper.timer", mode: "0660", dest: "/etc/systemd/system/backups-keeper.timer" }
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ tmpdir.path }}/{{ item.name }}"
+        dest: "{{ item.dest }}"
         owner: root
         group: root
+        mode: "{{ item.mode }}"
 
+    - name: "Install | clean up the temporary directory"
+      when: tmpdir.path is defined
+      ansible.builtin.file:
+        path: "{{ tmpdir.path }}"
+        state: absent
 
-- name: "Install | configure the invocation interval in the deployed timer"
-  notify: "Enable-Restart"
-  ansible.builtin.lineinfile:
-    path: /etc/systemd/system/backups-keeper.timer
-    regexp: "^OnCalendar"
-    line: "OnCalendar={{ bkeeper_timer_oncalendar }}"
-    owner: root
-    group: root
-    mode: '0644'
+    # - name: "Install | deploy systemd unit files"
+    #   notify: "Enable-Restart"
+    #   community.general.make:
+    #     chdir: "{{ bkeeper_branch_clone_dest }}"
+    #     target: "service"
